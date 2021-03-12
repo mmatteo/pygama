@@ -2,10 +2,10 @@ import numpy as np
 from numba import guvectorize
 import math
 
-@guvectorize(["void(float32[:], int32[:], int32[:],float32[:], float32[:])",
-              "void(float64[:], int64[:], int64[:],float64[:], float64[:] )"],
-             "(n)->(),(),(),()", nopython=True, cache=True)
 
+@guvectorize(["void(float32[:], int32[:], int32[:],float32[:], float32[:])",
+              "void(float64[:], int32[:], int32[:],float64[:], float64[:] )"],
+             "(n)->(),(),(),()", nopython=True, cache=True)
 
 
 def min_max(wf, argmin, argmax, wf_min, wf_max, ):
