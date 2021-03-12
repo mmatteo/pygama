@@ -20,11 +20,12 @@ def moving_window_left(wf_in, length, wf_out):
              "(n),()->(n)", nopython=True, cache=True)
 
 def moving_window_right(wf_in, length, wf_out):
-    wf_out[-1]= wf_in[-1]/length
+    wf_out[-1]= wf_in[-1] 
     for i in range(len(wf_in)-2, len(wf_in)-length-1,-1):
-        wf_out[i] = wf_out[i+1] + wf_in[i]/float(length)
+        wf_out[i] = wf_out[i+1] + (wf_in[i]-wf_out[-1])/float(length)
     for i in range(len(wf_in)-length-1, -1, -1):
         wf_out[i] = wf_out[i+1] + (wf_in[i] - wf_in[i+length])/float(length)
+
 
 @guvectorize(["void(float32[:], int32, int32, float32[:])",
               "void(float64[:], int32, int32, float64[:])"],
@@ -35,9 +36,9 @@ def moving_window_multi(wf_in, length, no, wf_out):
     for i in range(no):
         
         if i % 2 == 1:
-            wf_out[-1]= wf_buf[-1]/length
-            for i in range(len(wf_buf)-2, len(wf_buf)-length-1,-1):
-                wf_out[i] = wf_out[i+1] + wf_buf[i]/float(length)
+            wf_out[-1]= wf_in[-1] 
+            for i in range(len(wf_in)-2, len(wf_in)-length-1,-1):
+                wf_out[i] = wf_out[i+1] + (wf_in[i]-wf_out[-1])/float(length)
             for i in range(len(wf_buf)-(length+1), -1,-1):
                 wf_out[i] = wf_out[i+1] + (wf_buf[i] - wf_buf[i+length])/float(length)
         else:
