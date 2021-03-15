@@ -8,7 +8,7 @@ import math
              "(n)->(),(),(),()", nopython=True, cache=True)
 
 
-def min_max(wf, argmin, argmax, wf_min, wf_max, ):
+def min_max(wf, argmin, argmax, wf_min, wf_max):
     '''
     Finds the min, max and their time position for a waveform
     '''
