@@ -30,3 +30,5 @@ from ._processors.min_max import min_max
 from ._processors.presum import presum
 from ._processors.moving_window import moving_window_left, moving_window_right, moving_window_multi
 from ._processors.find_tp100 import find_tp100
+from ._processors.inject_pulse import inject_sig_pulse, inject_exp_pulse
+from ._processors.t0_filter import t0_filter_inv
