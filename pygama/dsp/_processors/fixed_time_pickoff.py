@@ -12,4 +12,12 @@ def fixed_time_pickoff(wf_in, time, value_out):
     Fixed time pickoff-- gives the waveform value at a fixed time
     """
 
+    # initialize output parameters
+    value_out[0] = np.nan
+
+    # check inputs
+    if (np.isnan(wf_in).any() or not 0 <= value_out < len(wf_in)):
+        print("warning: fixed_time_pickoff failed")
+        return
+
     value_out[0] = wf_in[time]
