@@ -13,9 +13,16 @@ def time_point_thresh(wf_in, threshold, tp_max, tp_out):
      threshold: threshold to search for
      tp_out: final time that waveform is less than threshold
     """
-    for i in range(tp_max, 0, -1):
-        if(wf_in[i]>threshold and wf_in[i-1]<threshold):
+
+    # initialize output parameters
+    tp_out[0] = np.nan
+
+    # check inputs
+    if (np.isnan(wf_in).any() or threshold == np.nan or not 0 <= tp_max < len(wf_in)):
+        print("warning: time_point_thresh failed")
+        return
+
+    for i in range(tp_max, 1, -1):
+        if (wf_in[i]>=threshold and wf_in[i-1]<threshold):
             tp_out[0] = i
             return
-    tp_out[0] = 0
-    return

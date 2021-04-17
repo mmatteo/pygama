@@ -8,7 +8,7 @@ from numba import guvectorize
              "(n),()->(n)", nopython=True, cache=True)
 
 def moving_window_left(wf_in, length, wf_out):
-    wf_out[0]= wf_in[0]/length
+    wf_out[0]= wf_in[0]/float(length)
     for i in range(1, length):
         wf_out[i] = wf_out[i-1] + wf_in[i]/float(length)
     for i in range(length, len(wf_in)):

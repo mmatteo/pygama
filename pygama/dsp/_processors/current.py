@@ -9,5 +9,10 @@ def avg_current(wf, n, deriv):
     Calculate the derivative of a WF, averaged across n samples. Dimension of
     deriv should be len(wf) - n
     """
+    # check inputs
+    if (np.isnan(wf).any() or not 0 < n < len(wf)):
+        print("warning: avg_current failed")
+        return
+
     deriv[:] = wf[n:] - wf[:-n]
     deriv/=n
