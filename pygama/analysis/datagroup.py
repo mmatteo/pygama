@@ -15,6 +15,7 @@ class DataGroup:
     """
     A class to create an in-memory or on-disk set of files, according to the
     LEGEND data convention.  Typically requires a JSON config file with:
+
       - path to DAQ and LH5 directories
       - format strings for daq/lh5 files
       - partitions for the LH5 data directory
@@ -37,7 +38,7 @@ class DataGroup:
         # load a pre-existing set of keys.  should be True by default
         if load:
             self.load_df()
-            
+
 
     def set_config(self, config):
         """
@@ -57,7 +58,7 @@ class DataGroup:
         # experiment-specific fileDB (h5 list of file keys)
         self.f_fileDB = os.path.expandvars(self.config['fileDB'])
         self.config['fileDB'] = os.path.expandvars(self.config['fileDB'])
-        
+
         # set DAQ data directory
         self.daq_dir = os.path.expandvars(self.config['daq_dir'])
         self.daq_ignore = self.config['daq_ignore']
@@ -74,7 +75,7 @@ class DataGroup:
             self.lh5_user_dir = os.path.expandvars(self.config['lh5_user'])
             if not os.path.isdir(self.lh5_user_dir):
                 print('Warning, LH5 user directory not found:', self.lh5_user_dir)
-                
+
         # optional: run selection json file
         if 'runSelectionDB' in self.config:
             f_runsel = os.path.expandvars(self.config['runSelectionDB'])
@@ -105,7 +106,7 @@ class DataGroup:
         lh5_dir = self.lh5_user if user_dir else self.lh5_dir
 
         # directories for hit-level data
-        t, r, s = self.tier_dirs, self.subsystems, self.run_types
+        t, r, s = self.tier_dirs, self.run_types, self.subsystems
         for tier, subs, rtp in itertools.product(t, s, r):
             dirname = f'{lh5_dir}/{tier}/{subs}/{rtp}'
             print(dirname)
@@ -137,7 +138,7 @@ class DataGroup:
         n_files = 0
 
         for path, folders, files in os.walk(self.daq_dir):
-        
+
             n_files += len(files)
 
             for f in files:
@@ -205,6 +206,7 @@ class DataGroup:
         default: save the unique_key and the relative path to the DAQ file,
         as a CSV file.  this will probably change in the future, but at least
         this way we can:
+
           - easily get a list of available DAQ files
           - regenerate the DataFrame from scan_daq_dir by parsing format string
         """
