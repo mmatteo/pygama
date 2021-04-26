@@ -3,7 +3,7 @@ from numba import guvectorize
 import math
 from math import pow
 
-def zac_filter(wsize, sigma, flat, decay):
+def old_zac_filter(wsize, sigma, flat, decay):
     """
     ZAC filter
     """

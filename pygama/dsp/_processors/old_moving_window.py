@@ -7,7 +7,7 @@ from numba import guvectorize
               "void(float64[:], int32, float64[:])"],
              "(n),()->(n)", nopython=True, cache=True)
 
-def moving_window_left(wf_in, length, wf_out):
+def old_moving_window_left(wf_in, length, wf_out):
     wf_out[0]= wf_in[0]/length
     for i in range(1, length):
         wf_out[i] = wf_out[i-1] + wf_in[i]/float(length)
@@ -19,7 +19,7 @@ def moving_window_left(wf_in, length, wf_out):
               "void(float64[:], int32, float64[:])"],
              "(n),()->(n)", nopython=True, cache=True)
 
-def moving_window_right(wf_in, length, wf_out):
+def old_moving_window_right(wf_in, length, wf_out):
     wf_out[-1]= wf_in[-1] 
     for i in range(len(wf_in)-2, len(wf_in)-length-1,-1):
         wf_out[i] = wf_out[i+1] + (wf_in[i]-wf_out[-1])/float(length)
@@ -31,7 +31,7 @@ def moving_window_right(wf_in, length, wf_out):
               "void(float64[:], int32, int32, float64[:])"],
              "(n),(),()->(n)", nopython=True, cache=True)
 
-def moving_window_multi(wf_in, length, no, wf_out):
+def old_moving_window_multi(wf_in, length, no, wf_out):
     wf_buf = wf_in.copy()
     for i in range(no):
         

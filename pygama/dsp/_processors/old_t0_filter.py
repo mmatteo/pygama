@@ -1,7 +1,7 @@
 import numpy as np
 from numba import guvectorize
 
-def t0_filter_inv(rise,fall):
+def old_t0_filter_inv(rise,fall):
 
     t0_kern = np.arange(2/float(rise),0, -2/(float(rise)**2))
     t0_kern = np.append(t0_kern, np.zeros(int(fall))-(1/float(fall)))

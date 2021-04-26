@@ -3,7 +3,7 @@ from numba import guvectorize
 import math
 from math import pow
 
-def cusp_filter(wsize, sigma, flat, decay):
+def old_cusp_filter(wsize, sigma, flat, decay):
     """
     CUSP filter
     """
