@@ -150,19 +150,6 @@ def zac_filter(length, sigma, flat, decay):
 
 def t0_filter(rise,fall):
 
-    if (not rise >= 0):
-        raise DSPError('rise out of range')
-    if (not fall >= 0):
-        raise DSPError('fall out of range')
-
-    t0_kern = np.arange(2/float(rise),0, -2/(float(rise)**2))
-    t0_kern = np.append(t0_kern, np.zeros(int(fall))-(1/float(fall)))
-
-    @guvectorize(["void(float32[:], float32[:])",
-                  "void(float64[:], float64[:])",
-                 "(n),(m)", forceobj=True)
-    def t0_filter_out(w_in,w_out):
-    
     """
     This processor applies modified assymetric trap filter to the waveform for use in t0 estimation. 
     It is composed of a factory function that is called using the init_args argument and the function the waveforms are passed to using args.
@@ -186,6 +173,18 @@ def t0_filter(rise,fall):
         waveform convolved with t0 filter
     """
 
+    if (not rise >= 0):
+        raise DSPError('rise out of range')
+    if (not fall >= 0):
+        raise DSPError('fall out of range')
+
+    t0_kern = np.arange(2/float(rise),0, -2/(float(rise)**2))
+    t0_kern = np.append(t0_kern, np.zeros(int(fall))-(1/float(fall)))
+
+    @guvectorize(["void(float32[:], float32[:])",
+                  "void(float64[:], float64[:])",
+                 "(n),(m)", forceobj=True)
+    def t0_filter_out(w_in,w_out):
 
         w_out[:] = np.nan
 
