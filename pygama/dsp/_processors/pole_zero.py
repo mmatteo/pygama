@@ -77,11 +77,11 @@ def double_pole_zero(w_in, t_tau1, t_tau2, frac, w_out):
     if (np.isnan(w_in).any() or t_tau1 == np.nan or t_tau1 == np.nan or frac == np.nan):
         return
 
-    if (not t_tau1 >= 0 )
+    if (not t_tau1 >= 0):
         raise DSPError('t_tau1 is out of range')
-    if (not t_tau2 >= 0 )
+    if (not t_tau2 >= 0):
         raise DSPError('t_tau2 is out of range')
-    if (not frac >= 0 )
+    if (not frac >= 0):
         raise DSPError('frac is out of range')
 
     const1 = 1/tau1 #np.exp(-1/tau1)
