@@ -32,14 +32,14 @@ def cusp_filter(length, sigma, flat, decay):
     """
 
     if (not length > 0):
-        raise ValueError('length out of range')
+        raise ValueError('length out of range, must be greater than 0')
     if (not sigma >= 0):
-        raise ValueError('sigma out of range')
+        raise ValueError('sigma out of range, must be >= 0')
 
     if (not flat >= 0):
-        raise ValueError('flat out of range')
+        raise ValueError('flat out of range, must be >= 0')
     if (not decay >= 0):
-        raise ValueError('decay out of range')
+        raise ValueError('decay out of range, must be >= 0')
 
     lt = int((length-flat)/2)
     cusp = np.zeros(length)
@@ -99,14 +99,14 @@ def zac_filter(length, sigma, flat, decay):
     """
 
     if (not length > 0):
-        raise ValueError('length out of range')
+        raise ValueError('length out of range, must be greater than 0')
     if (not sigma >= 0):
-        raise ValueError('sigma out of range')
+        raise ValueError('sigma out of range, must be >= 0')
 
     if (not flat >= 0):
-        raise ValueError('flat out of range')
+        raise ValueError('flat out of range, must be >= 0')
     if (not decay >= 0):
-        raise ValueError('decay out of range')
+        raise ValueError('decay out of range, must be >= 0')
 
     lt = int((length-flat)/2)
     # calculate cusp filter and negative parables
@@ -176,9 +176,9 @@ def t0_filter(rise,fall):
     """
 
     if (not rise >= 0):
-        raise ValueError('rise out of range')
+        raise ValueError('rise out of range, must be >= 0')
     if (not fall >= 0):
-        raise ValueError('fall out of range')
+        raise ValueError('fall out of range, must be >= 0')
 
     t0_kern = np.arange(2/float(rise),0, -2/(float(rise)**2))
     t0_kern = np.append(t0_kern, np.zeros(int(fall))-(1/float(fall)))

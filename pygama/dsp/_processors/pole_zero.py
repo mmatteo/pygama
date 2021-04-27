@@ -78,11 +78,11 @@ def double_pole_zero(w_in, t_tau1, t_tau2, frac, w_out):
         return
 
     if (not t_tau1 >= 0):
-        raise ValueError('t_tau1 is out of range')
+        raise ValueError('t_tau1 is out of range, must be >= 0')
     if (not t_tau2 >= 0):
-        raise ValueError('t_tau2 is out of range')
+        raise ValueError('t_tau2 is out of range, must be >= 0')
     if (not frac >= 0):
-        raise ValueError('frac is out of range')
+        raise ValueError('frac is out of range, must be >= 0')
 
     const1 = 1/t_tau1 #np.exp(-1/t_tau1)
     const2 = 1/t_tau2 #np.exp(-1/t_tau2)

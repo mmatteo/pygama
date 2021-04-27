@@ -9,7 +9,7 @@ from numba import guvectorize
 def moving_window_left(w_in, length, w_out):
 
     '''
-    Applies a moving average window to the waveform from the left
+    Applies a moving average window to the waveform from the left, assumes that the baseline is at 0. 
 
     Parameters
     ----------
@@ -30,8 +30,8 @@ def moving_window_left(w_in, length, w_out):
     if (np.isnan(w_in).any()):
         return
 
-    if (length < 0 or length>len(w_in)):
-        raise ValueError('length is out of range')
+    if (not length >= 0 or not length< len(w_in)):
+        raise ValueError('length is out of range, must be between 0 and the length of the waveform')
 
     w_out[0]= w_in[0]/length
     for i in range(1, int(length)):
@@ -47,7 +47,7 @@ def moving_window_left(w_in, length, w_out):
 def moving_window_right(w_in, length, w_out):
 
     '''
-    Applies a moving average window to the waveform from the right
+    Applies a moving average window to the waveform from the right. 
 
     Parameters
     ----------
@@ -68,8 +68,8 @@ def moving_window_right(w_in, length, w_out):
     if (np.isnan(w_in).any()):
         return
 
-    if (length < 0 or length>len(w_in)) :
-        raise ValueError('length is out of range')
+    if (not length >= 0 or not length< len(w_in)):
+        raise ValueError('length is out of range, must be between 0 and the length of the waveform')
 
 
     w_out[-1]= w_in[-1] 
@@ -86,7 +86,7 @@ def moving_window_right(w_in, length, w_out):
 def moving_window_multi(w_in, length, num_mw, w_out):
 
     '''
-    Applies a series of moving average window to the waveform alternating between applying form the left and right
+    Applies a series of moving average window to the waveform alternating between applying form the left and right. 
 
     Parameters
     ----------
@@ -110,11 +110,11 @@ def moving_window_multi(w_in, length, num_mw, w_out):
     if (np.isnan(w_in).any()):
         return
 
-    if (length < 0 or length>len(w_in)) :
-        raise ValueError('length is out of range')
+    if (not length >= 0 or not length< len(w_in)):
+        raise ValueError('length is out of range, must be between 0 and the length of the waveform')
     
-    if (num_mw <= 0) :
-        raise ValueError('num_mw is out of range')
+    if (not num_mw >= 0) :
+        raise ValueError('num_mw is out of range, must be >= 0')
 
 
     wf_buf = w_in.copy()
@@ -165,8 +165,8 @@ def avg_current(w_in, length, w_out):
     if (np.isnan(w_in).any()):
         return
 
-    if (length < 0 or length>len(w_in)) :
-        raise ValueError('length is out of range')
+    if (not length >= 0 or not length< len(w_in)):
+        raise ValueError('length is out of range, must be between 0 and the length of the waveform')
     
 
     w_out[:] = w_in[int(length):] - w_in[:-int(length)]
