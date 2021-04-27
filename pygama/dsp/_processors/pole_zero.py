@@ -2,8 +2,8 @@ import numpy as np
 from numba import guvectorize
 
 
-@guvectorize(["void(float32[:], float32, float32[:])",
-              "void(float64[:], float64, float64[:])"],
+@guvectorize(["void(float32[:], float32[:], float32[:])",
+              "void(float64[:], float64[:], float64[:])"],
              "(n),()->(n)", nopython=True, cache=True)
 
 
@@ -35,7 +35,7 @@ def pole_zero(w_in, t_tau, w_out):
         raise DSPError('t_tau is out of range')
 
 
-    const = np.exp(-1/tau)
+    const = np.exp(-1/t_tau)
     w_out[0] = w_in[0]
     for i in range(1, len(wf_in)):
         w_out[i] = w_out[i-1] + w_in[i] - w_in[i-1]*const
@@ -44,8 +44,8 @@ def pole_zero(w_in, t_tau, w_out):
 
 
 
-@guvectorize(["void(float32[:], float32, float32, float32, float32[:])",
-              "void(float64[:], float64, float64, float64, float64[:])"],
+@guvectorize(["void(float32[:], float32[:], float32[:], float32[:], float32[:])",
+              "void(float64[:], float64[:], float64[:], float64[:], float64[:])"],
              "(n),(),(),()->(n)", nopython=True, cache=True)
 
 def double_pole_zero(w_in, t_tau1, t_tau2, frac, w_out):
@@ -84,8 +84,8 @@ def double_pole_zero(w_in, t_tau1, t_tau2, frac, w_out):
     if (not frac >= 0):
         raise DSPError('frac is out of range')
 
-    const1 = 1/tau1 #np.exp(-1/tau1)
-    const2 = 1/tau2 #np.exp(-1/tau2)
+    const1 = 1/t_tau1 #np.exp(-1/t_tau1)
+    const2 = 1/t_tau2 #np.exp(-1/t_tau2)
     wf_out[0] = wf_in[0]
     e1 = wf_in[0]
     e2 = wf_in[0]
