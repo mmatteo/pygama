@@ -2,8 +2,8 @@ import numpy as np
 from numba import guvectorize
 
 
-@guvectorize(["void(float32[:], float32[:], float32[:])",
-              "void(float64[:], float64[:], float64[:])"],
+@guvectorize(["void(float32[:], float32, float32[:])",
+              "void(float64[:], float64, float64[:])"],
              "(n),()->(n)", nopython=True, cache=True)
 
 def moving_window_left(w_in, length, w_out):
@@ -27,7 +27,7 @@ def moving_window_left(w_in, length, w_out):
     
     w_out[:] = np.nan
 
-    if np.any(w_in<0) == True:
+    if (np.isnan(w_in).any()):
         return
 
     if (length < 0 or length>len(w_in)):
@@ -40,8 +40,8 @@ def moving_window_left(w_in, length, w_out):
         w_out[i] = w_out[i-1] + (w_in[i] - w_in[i-int(length)])/length
 
 
-@guvectorize(["void(float32[:], float32[:], float32[:])",
-              "void(float64[:], float64[:], float64[:])"],
+@guvectorize(["void(float32[:], float32, float32[:])",
+              "void(float64[:], float64, float64[:])"],
              "(n),()->(n)", nopython=True, cache=True)
 
 def moving_window_right(w_in, length, w_out):
@@ -65,7 +65,7 @@ def moving_window_right(w_in, length, w_out):
 
     w_out[:] = np.nan
 
-    if np.any(w_in<0) == True:
+    if (np.isnan(w_in).any()):
         return
 
     if (length < 0 or length>len(w_in)) :
@@ -79,8 +79,8 @@ def moving_window_right(w_in, length, w_out):
         w_out[i] = w_out[i+1] + (w_in[i] - w_in[i+int(length)])/length
 
 
-@guvectorize(["void(float32[:], float32[:], float32[:], float32[:])",
-              "void(float64[:], float64[:], float64[:], float64[:])"],
+@guvectorize(["void(float32[:], float32, float32, float32[:])",
+              "void(float64[:], float64, float64, float64[:])"],
              "(n),(),()->(n)", nopython=True, cache=True)
 
 def moving_window_multi(w_in, length, num_mw, w_out):
@@ -107,13 +107,13 @@ def moving_window_multi(w_in, length, num_mw, w_out):
 
     w_out[:] = np.nan
 
-    if np.any(w_in<0) == True:
+    if (np.isnan(w_in).any()):
         return
 
     if (length < 0 or length>len(w_in)) :
         raise ValueError('length is out of range')
     
-    if (no <= 0) :
+    if (num_mw <= 0) :
         raise ValueError('num_mw is out of range')
 
 
@@ -136,8 +136,8 @@ def moving_window_multi(w_in, length, num_mw, w_out):
 
 
 
-@guvectorize(["void(float32[:], float32[:], float32[:])",
-              "void(float64[:], float64[:], float64[:])"],
+@guvectorize(["void(float32[:], float32, float32[:])",
+              "void(float64[:], float64, float64[:])"],
              "(n),(),(m)", nopython=True, cache=True)
 
 
@@ -162,14 +162,12 @@ def avg_current(w_in, length, w_out):
 
     w_out[:] = np.nan
 
-    if np.any(w_in<0) == True:
+    if (np.isnan(w_in).any()):
         return
 
     if (length < 0 or length>len(w_in)) :
         raise ValueError('length is out of range')
     
-    if (no <= 0) :
-        raise ValueError('num_mw is out of range')
 
     w_out[:] = w_in[int(length):] - w_in[:-int(length)]
     w_out/=length

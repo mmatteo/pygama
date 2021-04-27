@@ -10,9 +10,8 @@ the ufunc interface, they can also be called to return a numpy array, but if
 
 # I think there's a way to do this recursively, but I'll figure it out later...
 from ._processors.mean_stdev import mean_stdev
-from ._processors.pole_zero import pole_zero, double_pole_zero
 from ._processors.trap_filter import trap_filter
-from ._processors.current import avg_current
+from ._processors.old_current import old_avg_current
 from ._processors.asym_trap_filter import asymTrapFilter
 from ._processors.fixed_time_pickoff import fixed_time_pickoff
 from ._processors.trap_norm import trap_norm
@@ -28,12 +27,14 @@ from ._processors.linear_slope_fit import linear_slope_fit
 from ._processors.log_check import log_check
 from ._processors.min_max import min_max
 from ._processors.presum import presum
-from ._processors.moving_windows import moving_window_left, moving_window_right, moving_window_multi, avg_current
 from ._processors.find_tp100 import find_tp100
-from ._processors.t0_filter import t0_filter_inv
+from ._processors.old_t0_filter import old_t0_filter_inv
 from ._processors.bl_subtract import bl_subtract
 from ._processors.convolutions import cusp_filter, zac_filter, t0_filter
 from ._processors.old_t0_filter import old_t0_filter_inv
 from ._processors.old_bl_subtract import old_bl_subtract
 from ._processors.old_log_check import old_log_check
 from ._processors.old_pole_zero import old_pole_zero, old_double_pole_zero
+from ._processors.pole_zero import pole_zero, double_pole_zero
+from ._processors.moving_windows import moving_window_left, moving_window_right, moving_window_multi, avg_current
+from ._processors.old_moving_window import old_moving_window_left, old_moving_window_right, old_moving_window_multi
