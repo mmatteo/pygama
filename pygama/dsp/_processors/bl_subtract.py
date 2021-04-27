@@ -33,6 +33,6 @@ def bl_subtract(w_in, a_baseline, w_out):
         return
 
     if (not a_baseline >= 0):
-        raise DSPError('a_baseline is out of range')
+        raise ValueError('a_baseline is out of range')
 
-    wf_out[:] = wf_in[:] - a_baseline
+    w_out[:] = w_in[:] - a_baseline

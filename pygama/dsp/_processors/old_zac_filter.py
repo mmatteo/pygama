@@ -41,6 +41,6 @@ def old_zac_filter(wsize, sigma, flat, decay):
                   "void(int32[:], int32[:])",
                   "void(int64[:], int64[:])"],
                  "(n),(m)", forceobj=True)
-    def zac_out(wf_in,wf_out):
+    def old_zac_out(wf_in,wf_out):
         wf_out[:] = np.convolve(wf_in, zacd, 'valid')
-    return zac_out
+    return old_zac_out

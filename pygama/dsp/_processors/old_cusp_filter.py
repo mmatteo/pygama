@@ -27,6 +27,6 @@ def old_cusp_filter(wsize, sigma, flat, decay):
                   "void(int32[:], int32[:])",
                   "void(int64[:], int64[:])"],
                  "(n),(m)", forceobj=True)
-    def cusp_out(wf_in,wf_out):
+    def old_cusp_out(wf_in,wf_out):
         wf_out[:] = np.convolve(wf_in, cuspd, 'valid')
-    return cusp_out
+    return old_cusp_out

@@ -32,22 +32,22 @@ def cusp_filter(length, sigma, flat, decay):
     """
 
     if (not length > 0):
-        raise DSPError('length out of range')
+        raise ValueError('length out of range')
     if (not sigma >= 0):
-        raise DSPError('sigma out of range')
+        raise ValueError('sigma out of range')
 
     if (not flat >= 0):
-        raise DSPError('flat out of range')
+        raise ValueError('flat out of range')
     if (not decay >= 0):
-        raise DSPError('decay out of range')
+        raise ValueError('decay out of range')
 
     lt = int((length-flat)/2)
     cusp = np.zeros(length)
-    for ind in range(lt)
+    for ind in range(lt):
         cusp[ind] = float(math.sinh(ind/sigma)/math.sinh(lt/sigma))
-    for ind in range(lt, lt+flat+1, 1)
+    for ind in range(lt, lt+flat+1, 1):
         cusp[ind] = 1
-    for ind in range(lt+flat+1, length,1)
+    for ind in range(lt+flat+1, length,1):
         cusp[ind] = float(math.sinh((length-ind)/sigma)/math.sinh(lt/sigma))
 
 
@@ -57,15 +57,17 @@ def cusp_filter(length, sigma, flat, decay):
     @guvectorize(["void(float32[:], float32[:])",
                   "void(float64[:], float64[:])"],
                  "(n),(m)", forceobj=True)
-    def cusp_out(wf_in,wf_out):
+    def cusp_out(w_in,w_out):
+
+        w_out[:]= np.nan
 
         if (np.isnan(w_in).any()):
             return
 
-        if (len(zacd)> len(w_in))
-            raise DSPError('Filter longer than input waveform')
+        if (len(cuspd)> len(w_in)):
+            raise ValueError('Filter longer than input waveform')
 
-        wf_out[:] = np.convolve(wf_in, cuspd, 'valid')
+        w_out[:] = np.convolve(w_in, cuspd, 'valid')
     return cusp_out
 
 def zac_filter(length, sigma, flat, decay):
@@ -97,25 +99,25 @@ def zac_filter(length, sigma, flat, decay):
     """
 
     if (not length > 0):
-        raise DSPError('length out of range')
+        raise ValueError('length out of range')
     if (not sigma >= 0):
-        raise DSPError('sigma out of range')
+        raise ValueError('sigma out of range')
 
     if (not flat >= 0):
-        raise DSPError('flat out of range')
+        raise ValueError('flat out of range')
     if (not decay >= 0):
-        raise DSPError('decay out of range')
+        raise ValueError('decay out of range')
 
     lt = int((length-flat)/2)
     # calculate cusp filter and negative parables
     cusp = np.zeros(length)
     par = np.zeros(length)
-    for ind in range(lt)
+    for ind in range(lt):
         cusp[ind] = float(math.sinh(ind/sigma)/math.sinh(lt/sigma))
         par[ind] = pow(ind-lt/2,2)-pow(lt/2,2)
-    for ind in range(lt, lt+flat+1, 1)
+    for ind in range(lt, lt+flat+1, 1):
         cusp[ind] = 1
-    for ind in range(lt+flat+1, length,1)
+    for ind in range(lt+flat+1, length,1):
         cusp[ind] = float(math.sinh((length-ind)/sigma)/math.sinh(lt/sigma))
         par[ind] = pow(length-ind-lt/2,2)-pow(lt/2,2)
 
@@ -142,10 +144,10 @@ def zac_filter(length, sigma, flat, decay):
         if (np.isnan(w_in).any()):
             return
 
-        if (len(zacd)> len(w_in))
-            raise DSPError('Filter longer than input waveform')
+        if (len(zacd) > len(w_in)):
+            raise ValueError('Filter longer than input waveform')
 
-        wf_out[:] = np.convolve(wf_in, zacd, 'valid')
+        w_out[:] = np.convolve(w_in, zacd, 'valid')
     return zac_out
 
 def t0_filter(rise,fall):
@@ -174,15 +176,15 @@ def t0_filter(rise,fall):
     """
 
     if (not rise >= 0):
-        raise DSPError('rise out of range')
+        raise ValueError('rise out of range')
     if (not fall >= 0):
-        raise DSPError('fall out of range')
+        raise ValueError('fall out of range')
 
     t0_kern = np.arange(2/float(rise),0, -2/(float(rise)**2))
     t0_kern = np.append(t0_kern, np.zeros(int(fall))-(1/float(fall)))
 
     @guvectorize(["void(float32[:], float32[:])",
-                  "void(float64[:], float64[:])",
+                  "void(float64[:], float64[:])"],
                  "(n),(m)", forceobj=True)
     def t0_filter_out(w_in,w_out):
 
@@ -191,8 +193,8 @@ def t0_filter(rise,fall):
         if (np.isnan(w_in).any()):
             return
 
-        if (len(t0_kern)> len(w_in))
-            raise DSPError('Filter longer than input waveform')
+        if (len(t0_kern)> len(w_in)):
+            raise ValueError('Filter longer than input waveform')
 
-        w_out[:] = np.convolve(w_in, t0_kern)[:len(wf_in)]
+        w_out[:] = np.convolve(w_in, t0_kern)[:len(w_in)]
     return t0_filter_out

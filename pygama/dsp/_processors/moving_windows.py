@@ -30,18 +30,18 @@ def moving_window_left(w_in, length, w_out):
     if np.any(w_in<0) == True:
         return
 
-    if (length < 0 or length>len(w_in)) :
-        raise DSPError('length is out of range')
+    if (length < 0 or length>len(w_in)):
+        raise ValueError('length is out of range')
 
-    w_out[0]= w_in[0]/float(length)
+    w_out[0]= w_in[0]/length
     for i in range(1, int(length)):
-        w_out[i] = w_out[i-1] + w_in[i]/float(length)
+        w_out[i] = w_out[i-1] + w_in[i]/length
     for i in range(int(length), len(w_in)):
-        w_out[i] = w_out[i-1] + (w_in[i] - w_in[i-length])/float(length)
+        w_out[i] = w_out[i-1] + (w_in[i] - w_in[i-int(length)])/length
 
 
-@guvectorize(["void(float32[:], int32, float32[:])",
-              "void(float64[:], int32, float64[:])"],
+@guvectorize(["void(float32[:], float32[:], float32[:])",
+              "void(float64[:], float64[:], float64[:])"],
              "(n),()->(n)", nopython=True, cache=True)
 
 def moving_window_right(w_in, length, w_out):
@@ -69,14 +69,14 @@ def moving_window_right(w_in, length, w_out):
         return
 
     if (length < 0 or length>len(w_in)) :
-        raise DSPError('length is out of range')
+        raise ValueError('length is out of range')
 
 
     w_out[-1]= w_in[-1] 
     for i in range(len(w_in)-2, len(w_in)-int(length)-1,-1):
-        w_out[i] = w_out[i+1] + (w_in[i]-w_out[-1])/float(length)
+        w_out[i] = w_out[i+1] + (w_in[i]-w_out[-1])/length
     for i in range(len(w_in)-int(length)-1, -1, -1):
-        w_out[i] = w_out[i+1] + (w_in[i] - w_in[i+int(length)])/float(length)
+        w_out[i] = w_out[i+1] + (w_in[i] - w_in[i+int(length)])/length
 
 
 @guvectorize(["void(float32[:], float32[:], float32[:], float32[:])",
@@ -111,10 +111,10 @@ def moving_window_multi(w_in, length, num_mw, w_out):
         return
 
     if (length < 0 or length>len(w_in)) :
-        raise DSPError('length is out of range')
+        raise ValueError('length is out of range')
     
     if (no <= 0) :
-        raise DSPError('num_mw is out of range')
+        raise ValueError('num_mw is out of range')
 
 
     wf_buf = w_in.copy()
@@ -122,16 +122,16 @@ def moving_window_multi(w_in, length, num_mw, w_out):
         
         if i % 2 == 1:
             w_out[-1]= w_in[-1] 
-            for i in range(len(w_in)-2, len(w_in)-length-1,-1):
-                w_out[i] = w_out[i+1] + (w_in[i]-w_out[-1])/float(length)
-            for i in range(len(wf_buf)-(length+1), -1,-1):
-                w_out[i] = w_out[i+1] + (wf_buf[i] - wf_buf[i+length])/float(length)
+            for i in range(len(w_in)-2, len(w_in)-int(length)-1,-1):
+                w_out[i] = w_out[i+1] + (w_in[i]-w_out[-1])/length
+            for i in range(len(wf_buf)-(int(length)+1), -1,-1):
+                w_out[i] = w_out[i+1] + (wf_buf[i] - wf_buf[i+int(length)])/length
         else:
             w_out[0]= wf_buf[0]/length
-            for i in range(1, length):
-                w_out[i] = w_out[i-1] + wf_buf[i]/float(length)
-            for i in range(length, len(w_in)):
-                w_out[i] = w_out[i-1] + (wf_buf[i] - wf_buf[i-length])/float(length)
+            for i in range(1, int(length)):
+                w_out[i] = w_out[i-1] + wf_buf[i]/length
+            for i in range(int(length), len(w_in)):
+                w_out[i] = w_out[i-1] + (wf_buf[i] - wf_buf[i-int(length)])/length
         wf_buf[:] = w_out[:]
 
 
@@ -166,10 +166,10 @@ def avg_current(w_in, length, w_out):
         return
 
     if (length < 0 or length>len(w_in)) :
-        raise DSPError('length is out of range')
+        raise ValueError('length is out of range')
     
     if (no <= 0) :
-        raise DSPError('num_mw is out of range')
+        raise ValueError('num_mw is out of range')
 
     w_out[:] = w_in[int(length):] - w_in[:-int(length)]
     w_out/=length
