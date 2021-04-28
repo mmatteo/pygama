@@ -29,7 +29,7 @@ def bl_subtract(w_in, a_baseline, w_out):
 
     w_out[:] = np.nan
 
-    if (np.isnan(w_in).any() or a_baseline == np.nan):
+    if (np.isnan(w_in).any() or np.isnan(a_baseline)):
         return
 
     if (not a_baseline >= 0):

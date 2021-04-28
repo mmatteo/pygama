@@ -74,7 +74,7 @@ def double_pole_zero(w_in, t_tau1, t_tau2, frac, w_out):
     
     w_out[:] = np.nan 
 
-    if (np.isnan(w_in).any() or t_tau1 == np.nan or t_tau1 == np.nan or frac == np.nan):
+    if (np.isnan(w_in).any() or np.isnan(t_tau1) or np.isnan(t_tau2) or np.isnan(frac)):
         return
 
     if (not t_tau1 >= 0):
