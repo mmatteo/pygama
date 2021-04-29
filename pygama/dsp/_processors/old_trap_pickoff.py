@@ -8,7 +8,7 @@ from numba import guvectorize
               "void(int64[:], int32, int32, int32, int64[:])"],
              "(n),(),(),()->()", nopython=True, cache=True)
 
-def trap_pickoff(wf_in, rise, flat, pickoff_time, value_out):
+def old_trap_pickoff(wf_in, rise, flat, pickoff_time, value_out):
     """
     Gives the value of a trapezoid, normalized by the "rise" (integration) time, at a specific time equal to pickoff_time. Use when the rest of the trapezoid output is extraneous.
     """

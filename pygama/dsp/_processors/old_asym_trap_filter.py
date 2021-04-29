@@ -6,7 +6,7 @@ from numba import guvectorize
               "void(int32[:], int32, int32, int32, int32[:])",
               "void(int64[:], int32, int32, int32, int64[:])"],
              "(n),(),(),()->(n)", nopython=True, cache=True)
-def asymTrapFilter(wf_in, rise, flat, fall, wf_out):
+def old_asymTrapFilter(wf_in, rise, flat, fall, wf_out):
     """ Computes an asymmetric trapezoidal filter"""
     wf_out[0] = wf_in[0]/float(rise)
     for i in range(1, rise):
