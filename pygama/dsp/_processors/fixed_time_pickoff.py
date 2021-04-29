@@ -3,8 +3,8 @@ import numpy as np
 from numba import guvectorize
 
 
-@guvectorize(["void(float32[:], float32[:], float32[:])",
-              "void(float64[:], float64[:], float64[:])"],
+@guvectorize(["void(float32[:], float32, float32[:])",
+              "void(float64[:], float32, float64[:])"],
              "(n),()->()", nopython=True, cache=True)
 def fixed_time_pickoff(w_in, t_in, a_out):
     

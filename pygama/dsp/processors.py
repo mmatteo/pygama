@@ -38,6 +38,6 @@ from ._processors.old_pole_zero import old_pole_zero, old_double_pole_zero
 from ._processors.pole_zero import pole_zero, double_pole_zero
 from ._processors.moving_windows import moving_window_left, moving_window_right, moving_window_multi, avg_current
 from ._processors.old_moving_window import old_moving_window_left, old_moving_window_right, old_moving_window_multi
-from ._processors.min_max import min_max
 from ._processors.fixed_time_pickoff import fixed_time_pickoff
 from ._processors.trap_filters import trap_filter, trap_norm, asym_trap_filter, trap_pickoff
+from ._processors.min_max import min_max
