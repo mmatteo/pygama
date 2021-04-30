@@ -32,7 +32,7 @@ def time_point_thresh_back(w_in, a_threshold, t_start, t_out):
         raise ValueError('t_start must be within waveform')
     
     
-    for i in range(int(t_start), 0, -1):
+    for i in range(int(t_start), -1, -1):
         if(w_in[i]>a_threshold and w_in[i-1]<a_threshold):
             t_out[0] = i
             return
@@ -69,7 +69,7 @@ def time_point_thresh_forward(w_in, a_threshold, t_start, t_out):
         raise ValueError('t_start must be within waveform')
     
     
-    for i in range(int(t_start), len(wf), 1):
-        if(w_in[i]<a_threshold and w_in[i-1]>a_threshold):
+    for i in range(int(t_start), len(w_in)+1, 1):
+        if(w_in[i]<a_threshold and w_in[i+1]>a_threshold):
             t_out[0] = i
             return
