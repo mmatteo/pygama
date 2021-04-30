@@ -8,7 +8,7 @@ from numba import guvectorize
               "void(int64[:], int64, int32, int32[:])"],
              "(n),(),()->()", nopython=True, cache=True)
 
-def find_tp100(wf_in, energy, tp_0, tp_out):
+def old_find_tp100(wf_in, energy, tp_0, tp_out):
 
 
     for i in range(tp_0, len(wf_in), 1):
