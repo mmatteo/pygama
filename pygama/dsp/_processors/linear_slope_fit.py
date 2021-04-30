@@ -6,25 +6,49 @@ from numba import guvectorize
              "(n)->(),(),(),()", nopython=True, cache=True)
 
 
+def linear_slope_fit(w_in, mean, stdev, slope, intercept):   
 
-def linear_slope_fit(wf, mean_y, sigma_y, slope, intercept):   
+    """
+    Finds a linear fit, mean and stdev of input wavefunction 
+    
+    Parameters
+    ----------
 
-    """Finds slope params, mean and stdev of wavefunction slice input"""
+    w_in : array-like
+            Input waveform 
+    
+    a_mean : float
 
-    sum_x = sum_x2 = sum_xy = sum_y = mean_y[0] = sigma_y[0] = 0
-    isum = len(wf)
+    stdev : float
 
-    for i,value in enumerate(wf):
+    slope : float
+
+    intercept : float
+    
+    
+    """
+
+    mean[0] = stdev[0] = slope[0] = intercept[0] = np.nan
+
+    if (np.isnan(w_in).any()):
+        return
+
+
+
+    sum_x = sum_x2 = sum_xy = sum_y = mean[0] = stdev[0] = 0
+    isum = len(w_in)
+
+    for i in range(len(w_in)):
         sum_x += i 
         sum_x2 += i**2
-        sum_xy += (value * i)
-        sum_y += value
-        mean_y += (value-mean_y) / (i+1)
-        sigma_y += (value-mean_y)**2
+        sum_xy += (w_in[i] * i)
+        sum_y += w_in[i]
+        mean += (w_in[i]-mean) / (i+1)
+        stdev += (w_in[i]-mean)**2
 
 
-    sigma_y /= (isum + 1)
-    np.sqrt(sigma_y, sigma_y)
+    stdev /= (isum + 1)
+    np.sqrt(stdev, stdev)
 
 
     slope[0] = (isum * sum_xy - sum_x * sum_y) / (isum * sum_x2 - sum_x * sum_x)
