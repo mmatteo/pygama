@@ -27,7 +27,7 @@ from ._processors.linear_slope_fit import linear_slope_fit
 from ._processors.log_check import log_check
 from ._processors.old_min_max import old_min_max
 from ._processors.presum import presum
-from ._processors.old_find_tp100 import old)find_tp100
+from ._processors.old_find_tp100 import old_find_tp100
 from ._processors.old_t0_filter import old_t0_filter_inv
 from ._processors.bl_subtract import bl_subtract
 from ._processors.convolutions import cusp_filter, zac_filter, t0_filter
