@@ -5,9 +5,7 @@ from numba import guvectorize
               "void(float64[:], float64[:], float64[:], float64[:], float64[:])"],
              "(n)->(),(),(),()", nopython=True, cache=True)
 
-
 def linear_slope_fit(w_in, mean, stdev, slope, intercept):   
-
     """
     Finds a linear fit, mean and stdev of input wavefunction 
     
@@ -24,16 +22,12 @@ def linear_slope_fit(w_in, mean, stdev, slope, intercept):
     slope : float
 
     intercept : float
-    
-    
     """
 
     mean[0] = stdev[0] = slope[0] = intercept[0] = np.nan
 
     if (np.isnan(w_in).any()):
         return
-
-
 
     sum_x = sum_x2 = sum_xy = sum_y = mean[0] = stdev[0] = 0
     isum = len(w_in)
@@ -46,10 +40,8 @@ def linear_slope_fit(w_in, mean, stdev, slope, intercept):
         mean += (w_in[i]-mean) / (i+1)
         stdev += (w_in[i]-mean)**2
 
-
     stdev /= (isum + 1)
     np.sqrt(stdev, stdev)
-
 
     slope[0] = (isum * sum_xy - sum_x * sum_y) / (isum * sum_x2 - sum_x * sum_x)
     intercept[0] = (sum_y - sum_x * slope[0])/isum
