@@ -5,7 +5,7 @@ from numba import guvectorize
               "void(float64[:], float64, float32, float32[:])"],
              "(n),(),()->()", nopython=True, cache=True)
 
-def time_point_thresh_forward(w_in, a_threshold, t_start, walk_forward, t_out):
+def time_point_thresh(w_in, a_threshold, t_start, walk_forward, t_out):
     """
     Find the time after/before t_start where w_in first crosses a threshold 
 
