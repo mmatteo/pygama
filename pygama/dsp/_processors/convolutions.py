@@ -29,6 +29,19 @@ def cusp_filter(length, sigma, flat, decay):
             waveform to be convolved with CUSP filter
     w_out : array-like
         waveform convolved with CUSP filter
+
+
+    Processing Chain Example
+    ------------------------
+
+    "wf_cusp": {
+        "function": "cusp_filter",
+        "module": "pygama.dsp.processors",
+        "args": [ "wf_blsub", "wf_cusp(101,f)" ],
+        "init_args" : ["len(wf_blsub)-100", "40*us", "3*us", "45*us"],
+        "prereqs": [ "wf_blsub" ],
+        "unit": "ADC"
+        },
     """
 
     if (not length > 0):
@@ -96,6 +109,18 @@ def zac_filter(length, sigma, flat, decay):
             waveform to be convolved with ZAC filter
     w_out : array-like
         waveform convolved with ZAC filter
+
+    Processing Chain Example
+    ------------------------
+
+    "wf_zac": {
+        "function": "zac_filter",
+        "module": "pygama.dsp.processors",
+        "args": [ "wf_blsub", "wf_zac(101,f)" ],
+        "init_args" : ["len(wf_blsub)-100", "40*us", "3*us", "45*us"],
+        "prereqs": [ "wf_blsub" ],
+        "unit": "ADC"
+        },
     """
 
     if (not length > 0):
@@ -173,6 +198,18 @@ def t0_filter(rise,fall):
             waveform to be convolved with t0 filter
     w_out : array-like
         waveform convolved with t0 filter
+
+    Processing Chain Example
+    ------------------------
+
+    "wf_t0_filter": {
+        "function": "t0_filter",
+        "module": "pygama.dsp.processors",
+        "args": [ "wf_pz", "wf_t0_filter(3748,f)" ],
+        "init_args" : ["128*ns", "2*us"],
+        "prereqs": ["wf_pz"],
+        "unit": "ADC"
+        },
     """
 
     if (not rise >= 0):

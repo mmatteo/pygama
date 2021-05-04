@@ -20,6 +20,17 @@ def pole_zero(w_in, t_tau, w_out):
     
     w_out : array-like
             Output array for pole zero corrected waveform 
+
+    Processing Chain Example
+    ------------------------
+    "wf_pz": {
+        "function": "pole_zero",
+        "module": "pygama.dsp.processors",
+        "args": ["wf_blsub", "db.pz.tau", "wf_pz"],
+        "prereqs": ["wf_blsub"],
+        "unit": "ADC",
+        "defaults": { "db.pz.tau":"74*us" }
+        },
     """
 
     w_out[:] = np.nan 
@@ -62,6 +73,18 @@ def double_pole_zero(w_in, t_tau1, t_tau2, frac, w_out):
     
     w_out : array-like
             Output array for pole zero corrected waveform 
+
+    Processing Chain Example
+    ------------------------
+
+    "wf_pz2": {
+        "function": "double_pole_zero",
+        "module": "pygama.dsp.processors",
+        "args": ["wf_blsub", "db.pz2.tau1", "db.pz2.tau2",  "db.pz2.frac", "wf_pz2"],
+        "prereqs": ["wf_blsub"],
+        "unit": "ADC",
+        "defaults": { "db.pz2.tau1":"74*us", "db.pz2.tau2":"3*us", "db.pz2.frac":"0.013" }
+        },
     """
     
     w_out[:] = np.nan 

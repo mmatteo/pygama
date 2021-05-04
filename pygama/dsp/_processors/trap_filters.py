@@ -28,6 +28,17 @@ def trap_filter(w_in, rise, flat, w_out):
     w_out : array-like
             Output waveform after trap filter applied
 
+    Processing Chain Example
+    ------------------------
+
+    "wf_trap": {
+        "function": "trap_filter",
+        "module": "pygama.dsp.processors",
+        "args": ["wf_pz", "10*us", "3*us", "wf_trap"],
+        "prereqs": ["wf_pz"],
+        "unit": "ADC"
+        },
+
     """
     
     w_out[:] = np.nan
@@ -80,6 +91,17 @@ def trap_norm(w_in, rise, flat, w_out):
 
     w_out : array-like
             Output waveform after trap filter applied
+
+    Processing Chain Example
+    ------------------------
+
+    "wf_trap": {
+        "function": "trap_norm",
+        "module": "pygama.dsp.processors",
+        "args": ["wf_pz", "10*us", "3*us", "wf_trap"],
+        "prereqs": ["wf_pz"],
+        "unit": "ADC"
+        },
 
     """
     
@@ -136,6 +158,17 @@ def asym_trap_filter(w_in, rise, flat, fall, w_out):
 
     w_out : array-like
             Output waveform after trap filter applied
+
+    Processing Chain Example
+    ------------------------
+
+    "wf_atrap": {
+        "function": "asym_trap_filter",
+        "module": "pygama.dsp.processors",
+        "args": ["wf_pz", "128*ns", "64*ns","2*us", "wf_atrap"],
+        "prereqs": ["wf_pz"],
+        "unit": "ADC"
+        },
 
     """
 
@@ -195,6 +228,17 @@ def trap_pickoff(w_in, rise, flat, t_pickoff, a_out):
 
     a_out : float
             Output waveform after trap filter applied
+    
+    Processing Chain Example
+    ------------------------
+
+    "ct_corr": {
+        "function": "trap_pickoff",
+        "module": "pygama.dsp.processors",
+        "args":["wf_pz", "1.5*us", 0, "tp_0", "ct_corr"],
+        "unit": "ADC",
+        "prereqs": ["wf_pz", "tp_0"]
+        },
     
     """
 

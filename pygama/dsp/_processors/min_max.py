@@ -27,6 +27,17 @@ def min_max(w_in, t_min, t_max, a_min, a_max):
     
     a_max : float
             Output value when waveform is at maximum
+
+    Processing Chain Example
+    ------------------------
+    
+    "tp_min, tp_max, wf_min, wf_max":{
+        "function": "min_max",
+        "module": "pygama.dsp.processors",
+        "args": ["waveform", "tp_min", "tp_max", "wf_min", "wf_max"],
+        "unit": ["ns","ns","ADC", "ADC"],
+        "prereqs":["waveform"]
+        },
     """
 
     a_min[0] = a_max[0] = t_min[0] = t_max[0] = np.nan

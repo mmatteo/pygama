@@ -22,6 +22,17 @@ def linear_slope_fit(w_in, mean, stdev, slope, intercept):
     slope : float
 
     intercept : float
+
+    Processing Chain Example
+    ------------------------
+    
+    "bl_mean , bl_std, bl_slope, bl_intercept":{
+        "function": "linear_slope_fit",
+        "module": "pygama.dsp.processors",
+        "args" : ["wf_blsub[0: 1650]", "bl_mean","bl_std", "bl_slope","bl_intercept"],
+        "prereqs": ["wf_blsub"],
+        "unit": ["ADC","ADC","ADC","ADC"]
+        },
     """
 
     mean[0] = stdev[0] = slope[0] = intercept[0] = np.nan

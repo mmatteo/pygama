@@ -27,6 +27,18 @@ def time_point_thresh(w_in, a_threshold, t_start, walk_forward, t_out):
     
      tp_out: float
              Final time that waveform is less than threshold
+
+
+    Processing Chain Example
+    ------------------------
+    
+    "tp_0": {
+        "function": "time_point_thresh",
+        "module": "pygama.dsp.processors",
+        "args": [ "wf_atrap", "bl_std", "tp_start", 0 ,"tp_0" ],
+        "unit": "ns",
+        "prereqs": [ "wf_atrap", "bl_std", "tp_start" ]
+        },
     """
     
     t_out[0] = np.nan

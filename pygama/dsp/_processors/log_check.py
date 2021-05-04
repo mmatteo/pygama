@@ -17,6 +17,17 @@ def log_check(w_in, w_log):
     
     w_log : array-like
             the output of the processor the logged waveform
+
+    Processing Chain Example
+    ------------------------
+
+    "wf_logged":{
+        "function": "log_check",
+        "module": "pygama.dsp.processors",
+        "args": ["wf_blsub[2100:]", "wf_logged"],
+        "prereqs": ["wf_blsub"],
+        "unit": "ADC"
+        },
     """
     
     w_log[:] = np.nan
