@@ -1,6 +1,7 @@
   
 import numpy as np
 from numba import guvectorize
+import math
 
 
 @guvectorize(["void(float32[:], float32, float32, float32[:])",
@@ -201,6 +202,9 @@ def trap_pickoff(w_in, rise, flat, t_pickoff, a_out):
 
     if (np.isnan(w_in).any()):
         return
+
+    if (not np.floor(t_pickoff)==t_pickoff):
+        raise ValueError('Pickoff time is not an integer')
 
     if (not  0 <= rise):
         raise ValueError('Rise must be >= 0')

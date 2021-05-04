@@ -9,16 +9,16 @@ the ufunc interface, they can also be called to return a numpy array, but if
 """
 
 # I think there's a way to do this recursively, but I'll figure it out later...
-from ._processors.mean_stdev import mean_stdev
+from ._processors.old_mean_stdev import mean_stdev
 from ._processors.old_trap_filter import old_trap_filter
 from ._processors.old_current import old_avg_current
 from ._processors.old_asym_trap_filter import old_asymTrapFilter
 from ._processors.old_fixed_time_pickoff import old_fixed_time_pickoff
 from ._processors.old_trap_norm import old_trap_norm
 from ._processors.old_trap_pickoff import old_trap_pickoff
-from ._processors.time_point_frac import time_point_frac
+from ._processors.old_time_point_frac import time_point_frac
 from ._processors.old_time_point_thresh import old_time_point_thresh
-from ._processors.linear_fit import linear_fit
+from ._processors.old_linear_fit import linear_fit
 from ._processors.old_zac_filter import old_zac_filter
 from ._processors.param_lookup import param_lookup
 from ._processors.old_cusp_filter import old_cusp_filter

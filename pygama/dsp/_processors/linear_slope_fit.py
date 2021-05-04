@@ -35,8 +35,8 @@ def linear_slope_fit(w_in, mean, stdev, slope, intercept):
     for i in range(len(w_in)):
         # mean and stdev
         tmp = w_in[i]-mean
-        mean[0] += tmp / (i+1)
-        stdev[0] += tmp*tmp
+        mean += tmp / (i+1)
+        stdev += tmp*(w_in[i]-mean)
 
         # linear regression
         sum_x += i 
