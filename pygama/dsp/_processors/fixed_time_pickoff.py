@@ -1,15 +1,13 @@
-  
 import numpy as np
 from numba import guvectorize
-
 
 @guvectorize(["void(float32[:], float32, float32[:])",
               "void(float64[:], float32, float64[:])"],
              "(n),()->()", nopython=True, cache=True)
+
 def fixed_time_pickoff(w_in, t_in, a_out):
-    
     """
-    Fixed time pickoff-- gives the waveform value at a fixed time
+    Fixed time pickoff -- gives the waveform value at a fixed time
 
     Parameters
     ----------
@@ -28,7 +26,10 @@ def fixed_time_pickoff(w_in, t_in, a_out):
     if (np.isnan(w_in).any() or np.isnan(t_in)):
         return
 
-    if (not  0 <= t_in < len(w_in)):
+    if (not t_in.is_integer()):
+        raise ValueError('Time point is not an integer')
+
+    if (not int(t_in) in range(len(w_in))):
         raise ValueError('Time point not in length of waveform')
 
     a_out[0] = w_in[int(t_in)]

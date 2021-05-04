@@ -5,11 +5,9 @@ from numba import guvectorize
               "void(float64[:], float64[:], float64[:], float64[:], float64[:])"],
              "(n)->(),(),(),()", nopython=True, cache=True)
 
-
 def linear_slope_fit(w_in, mean, stdev, slope, intercept):   
-
     """
-    Finds a linear fit, mean and stdev of input wavefunction 
+    Calculate mean and standard deviation using Welford's method. In addition, it performs a linear regression and return best fit values for slope and intercept. Note: mean and stdev are computes assuming a flat slope.
     
     Parameters
     ----------
@@ -24,8 +22,6 @@ def linear_slope_fit(w_in, mean, stdev, slope, intercept):
     slope : float
 
     intercept : float
-    
-    
     """
 
     mean[0] = stdev[0] = slope[0] = intercept[0] = np.nan
@@ -33,23 +29,43 @@ def linear_slope_fit(w_in, mean, stdev, slope, intercept):
     if (np.isnan(w_in).any()):
         return
 
-
-
     sum_x = sum_x2 = sum_xy = sum_y = mean[0] = stdev[0] = 0
     isum = len(w_in)
 
     for i in range(len(w_in)):
+        # mean and stdev
+        tmp = w_in[i]-mean
+        mean[0] += tmp / (i+1)
+        stdev[0] += tmp*tmp
+
+        # linear regression
         sum_x += i 
-        sum_x2 += i**2
+        sum_x2 += i*i
         sum_xy += (w_in[i] * i)
         sum_y += w_in[i]
-        mean += (w_in[i]-mean) / (i+1)
-        stdev += (w_in[i]-mean)**2
 
-
-    stdev /= (isum + 1)
+    stdev /= (isum - 1)
     np.sqrt(stdev, stdev)
-
 
     slope[0] = (isum * sum_xy - sum_x * sum_y) / (isum * sum_x2 - sum_x * sum_x)
     intercept[0] = (sum_y - sum_x * slope[0])/isum
+
+#
+# FIXME: How is our alrogithm comparing to Iann's implementation:
+#   """
+#   Perform a linear fit of the waveform to m*x + b. Followed
+#   the numerical recipes in C (ch 15, p 664) algorithm
+#   """
+#   S = len(wf)
+#   Sx = S*(S-1)/2.
+#   Stt = 0.
+#   Sty = 0.
+#   Sy = 0.
+#   for i, samp in enumerate(wf):
+#       t = i - Sx/S
+#       Stt += t*t
+#       Sty += t*samp
+#       Sy += samp
+#   m[0] = Sty/Stt
+#   b[0] = (Sy-Sx*m[0])/S
+# 

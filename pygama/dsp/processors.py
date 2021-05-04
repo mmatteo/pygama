@@ -41,5 +41,5 @@ from ._processors.old_moving_window import old_moving_window_left, old_moving_wi
 from ._processors.fixed_time_pickoff import fixed_time_pickoff
 from ._processors.trap_filters import trap_filter, trap_norm, asym_trap_filter, trap_pickoff
 from ._processors.min_max import min_max
-from ._processors.time_point_thresh import time_point_thresh_back, time_point_thresh_forward
+from ._processors.time_point_thresh import time_point_thresh
 from ._processors.old_linear_slope_fit import old_linear_slope_fit

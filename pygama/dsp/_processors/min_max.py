@@ -1,23 +1,20 @@
 import numpy as np
 from numba import guvectorize
-import math
-
 
 @guvectorize(["void(float32[:], float32[:], float32[:], float32[:], float32[:])",
               "void(float64[:], float32[:], float32[:], float64[:], float64[:])"],
              "(n)->(),(),(),()", nopython=True, cache=True)
 
-
 def min_max(w_in, t_min, t_max, a_min, a_max):
-    
-    '''
-    Finds the min, max and their time position for a waveform
+    """
+    Finds the min, max and their time position for a waveform.  If there are
+    multiple samples with the same min/max value, the first one is returned
 
     Parameters
     ----------
 
     w_in : array-like
-            input waveform
+           input waveform
     
     t_min : float
             Output time when waveform is at minimum
@@ -30,13 +27,9 @@ def min_max(w_in, t_min, t_max, a_min, a_max):
     
     a_max : float
             Output value when waveform is at maximum
+    """
 
-    '''
-
-    a_min[0] = np.nan
-    a_max[0] = np.nan
-    t_min[0] = np.nan
-    t_max[0] = np.nan
+    a_min[0] = a_max[0] = t_min[0] = t_max[0] = np.nan
 
     if (np.isnan(w_in).any()):
         return
